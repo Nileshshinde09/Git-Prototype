@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "dev": "bun run app/main.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.7"
+  },
+  "dependencies": {
+    "ignore": "^6.0.2"
+  }
+}
