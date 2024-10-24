@@ -4,9 +4,12 @@ import {
   createHashObject,
   handleLsTree,
   handleCommit,
-  handleWriteTree
+  handleWriteTree,
+  handleReset,
+  handleStatus,
+  handleAddFile,
+  handleAddAll,
 } from "./utils";
-
 const args = process.argv.slice(2);
 const command = args[0];
 
@@ -17,6 +20,10 @@ enum Commands {
   LsTree = "ls-tree",
   Commit = "commit",
   WriteTree = "write-tree",
+  Status = "status",
+  Reset = "reset",
+  AddAll = "add .",
+  AddFile = "add",
 }
 
 switch (command) {
@@ -36,8 +43,20 @@ switch (command) {
     handleCommit();
     break;
   case Commands.WriteTree:
-  handleWriteTree();  
-  break;
+    handleWriteTree();
+    break;
+  case Commands.AddAll:
+    handleAddAll();
+    break;
+  case Commands.AddFile:
+    handleAddFile();
+    break;
+  case Commands.Status:
+    handleStatus();
+    break;
+  case Commands.Reset:
+    handleReset();
+    break;
   default:
     throw new Error(`Unknown command ${command}`);
 }

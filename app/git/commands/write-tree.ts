@@ -20,12 +20,12 @@ const writeFileBlob = (currentPath: string): string => {
 
   if (!fs.existsSync(completeFolderPath)) fs.mkdirSync(completeFolderPath);
   try {
-    const compressedData: any = zlib.deflateSync(blob); 
+    const compressedData: any = zlib.deflateSync(blob);
     const gitPath = path.resolve(process.cwd(), ".git", "objects", folder);
-    if (!fs.existsSync(gitPath)) fs.mkdirSync(gitPath, { recursive: true }); 
+    if (!fs.existsSync(gitPath)) fs.mkdirSync(gitPath, { recursive: true });
 
     const filePath = path.join(gitPath, file);
-    fs.writeFileSync(filePath, compressedData); 
+    fs.writeFileSync(filePath, compressedData);
   } catch (error) {}
   return hash;
 };

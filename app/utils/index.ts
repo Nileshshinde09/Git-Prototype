@@ -5,10 +5,38 @@ import { HashObjectCommand } from "../git/commands/hash-object";
 import getCurrentBranch from "./getCurrentBranch";
 import { LSTreeCommand } from "../git/commands/ls-tree";
 import { WriteTreeCommand } from "../git/commands/write-tree";
+import { AddCommand } from "../git/commands/git-add";
 
+// const simpleGit = new SimpleGit();
+
+// simpleGit.addAll();
+
+// simpleGit.add("example.txt");
+
+// simpleGit.status();
+
+// simpleGit.reset();
+// simpleGit.status();
 const args = process.argv.slice(2);
 export type command = string | null;
 const currentBranch = getCurrentBranch();
+const handleAddAll = () => {
+  const addCommand = new AddCommand(null)
+  addCommand.execute()
+};
+const handleAddFile = () => {
+  const addCommand = new AddCommand(process.argv[5])
+  addCommand.execute()
+};
+const handleStatus = () => {
+  const addCommand = new AddCommand(null,true)
+  addCommand.execute()
+};
+const handleReset = () => {
+  const addCommand = new AddCommand(null)
+  addCommand.reset()
+};
+
 enum CommitEnum {
   COMMIT_COMMAND = "commit",
   COMMIT_FLAG = "-m",
@@ -129,4 +157,8 @@ export {
   handleLsTree,
   handleCommit,
   handleWriteTree,
+  handleAddAll,  
+  handleAddFile,
+  handleStatus,
+  handleReset,
 };
