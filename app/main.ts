@@ -3,7 +3,8 @@ import {
   handleCatFileCommand,
   createHashObject,
   handleLsTree,
-  handleCommit
+  handleCommit,
+  handleWriteTree
 } from "./utils";
 
 const args = process.argv.slice(2);
@@ -15,6 +16,7 @@ enum Commands {
   HashObject = "hash-object",
   LsTree = "ls-tree",
   Commit = "commit",
+  WriteTree = "write-tree",
 }
 
 switch (command) {
@@ -33,6 +35,9 @@ switch (command) {
   case Commands.Commit:
     handleCommit();
     break;
+  case Commands.WriteTree:
+  handleWriteTree();  
+  break;
   default:
     throw new Error(`Unknown command ${command}`);
 }

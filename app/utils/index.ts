@@ -4,25 +4,25 @@ import { GitClient } from "../git/client";
 import { HashObjectCommand } from "../git/commands/hash-object";
 import getCurrentBranch from "./getCurrentBranch";
 import { LSTreeCommand } from "../git/commands/ls-tree";
+import { WriteTreeCommand } from "../git/commands/write-tree";
 
 const args = process.argv.slice(2);
 export type command = string | null;
 const currentBranch = getCurrentBranch();
-enum CommitEnum{
-    COMMIT_COMMAND="commit",
-    COMMIT_FLAG="-m"
+enum CommitEnum {
+  COMMIT_COMMAND = "commit",
+  COMMIT_FLAG = "-m",
 }
-const handleCommit=()=>{
- console.log("hello");
- 
+
+const handleWriteTree = () => {
+  const writeTreeCommand = new WriteTreeCommand();
+  writeTreeCommand.execute();
+};
+
+const handleCommit = () => {
+  console.log("hello");
   const commitFlag = process.argv[4];
-  // if(CommitEnum.COMMIT_COMMAND===commitCommand){
-
-  // }
-
-}
-
-
+};
 
 const isGitCommitHash = (input: string) => {
   const sha1Regex = /^[a-f0-9]{40}$/;
@@ -33,17 +33,17 @@ export enum FlagsEnum {
   RECURSIVE = "-r",
   RECURSIVE_LONG = "-rl",
   RECURSIVE_TREE = "-rt",
-  LONG = "-l"
+  LONG = "-l",
 }
 
 export enum PointerEnum {
-  HEAD = "HEAD"
+  HEAD = "HEAD",
 }
 
 const handleLsTree = () => {
-  const inp1 = process.argv[3]; 
-  const inp2 = process.argv[4]; 
-  const inp3 = process.argv[5]; 
+  const inp1 = process.argv[3];
+  const inp2 = process.argv[4];
+  const inp3 = process.argv[5];
 
   let flag: FlagsEnum | null = null;
   let pointer: PointerEnum | string | null = null;
@@ -56,7 +56,11 @@ const handleLsTree = () => {
 
   if (Object.values(FlagsEnum).includes(inp1 as FlagsEnum)) {
     flag = inp1 as FlagsEnum;
-  } else if (inp1 === PointerEnum.HEAD || currentBranch === inp1 || isGitCommitHash(inp1)) {
+  } else if (
+    inp1 === PointerEnum.HEAD ||
+    currentBranch === inp1 ||
+    isGitCommitHash(inp1)
+  ) {
     pointer = inp1 as PointerEnum;
   } else {
     console.error(`Invalid tree-ish or flag: ${inp1}`);
@@ -66,7 +70,11 @@ const handleLsTree = () => {
   if (inp2) {
     if (Object.values(FlagsEnum).includes(inp2 as FlagsEnum)) {
       objectLengthFlag = inp2 as FlagsEnum;
-    } else if (inp2 === PointerEnum.HEAD || currentBranch === inp2 || isGitCommitHash(inp2)) {
+    } else if (
+      inp2 === PointerEnum.HEAD ||
+      currentBranch === inp2 ||
+      isGitCommitHash(inp2)
+    ) {
       pointer = inp2;
     } else {
       console.error(`Invalid potential branch or commit: ${inp2}`);
@@ -86,7 +94,6 @@ const handleLsTree = () => {
   const lsTreeCommand = new LSTreeCommand(flag, pointer, objectLengthFlag);
   lsTreeCommand.execute();
 };
-
 
 const createHashObject = () => {
   let flag: command = process.argv[3];
@@ -120,5 +127,6 @@ export {
   createInitializeGit,
   createHashObject,
   handleLsTree,
-  handleCommit
+  handleCommit,
+  handleWriteTree,
 };
